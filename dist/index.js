@@ -36880,7 +36880,7 @@ async function run() {
         const hasChanged = filesToCheck.some((checkFile) => {
             return updatedPrFilenames.some((prFile) => matchPattern(prFile, checkFile));
         });
-        console.log(`PR has changed: ${hasChanged}`);
+        console.log(`PR ${hasChanged ? 'has' : 'has not'} changed files: ${filesToCheck}`);
         coreExports.setOutput('has-changed', hasChanged);
     }
     catch (error) {

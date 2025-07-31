@@ -36,13 +36,17 @@ export async function run(): Promise<void> {
 
     const updatedPrFilenames = updatedPrFiles.data.map((file) => file.filename)
 
-    const hasChanged = filesToCheck.some((checkFile) => {
+    console.log(updatedPrFilenames)
+    console.log(`Checking files: ${filesToCheck}`)
+    const hasChanged = filesToCheck.some((checkFilePattern) => {
       return updatedPrFilenames.some((prFile) =>
-        matchPattern(prFile, checkFile)
+        matchPattern(prFile, checkFilePattern)
       )
     })
 
-    console.log(`PR has changed: ${hasChanged}`)
+    console.log(
+      `PR ${hasChanged ? 'has' : 'has not'} changed files: ${filesToCheck}`
+    )
     core.setOutput('has-changed', hasChanged)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
