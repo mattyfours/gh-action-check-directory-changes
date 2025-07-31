@@ -36863,7 +36863,7 @@ async function run() {
         const { owner, repo } = githubExports.context.repo;
         const githubToken = process.env.GITHUB_TOKEN;
         const octokit = new Octokit({ auth: githubToken });
-        const filesToCheck = coreExports.getInput('files', {
+        const pathsToCheck = coreExports.getInput('paths', {
             required: true,
             trimWhitespace: true
         })
@@ -36879,10 +36879,10 @@ async function run() {
             pull_number: prNumber
         });
         const updatedPrFilenames = updatedPrFiles.data.map((file) => file.filename);
-        const hasChanged = filesToCheck.some((checkFilePattern) => {
-            return updatedPrFilenames.some((prFile) => matchPattern(prFile, checkFilePattern));
+        const hasChanged = pathsToCheck.some((filePath) => {
+            return updatedPrFilenames.some((prFile) => matchPattern(prFile, filePath));
         });
-        console.log(`PR ${hasChanged ? 'has' : 'has not'} changed files: ${filesToCheck}`);
+        console.log(`PR ${hasChanged ? 'has' : 'has not'} changed files: ${pathsToCheck}`);
         coreExports.setOutput('has-changed', hasChanged);
     }
     catch (error) {

@@ -13,8 +13,8 @@ export async function run(): Promise<void> {
     const githubToken = process.env.GITHUB_TOKEN
     const octokit = new Octokit({ auth: githubToken })
 
-    const filesToCheck = core
-      .getInput('files', {
+    const pathsToCheck = core
+      .getInput('paths', {
         required: true,
         trimWhitespace: true
       })
@@ -36,14 +36,12 @@ export async function run(): Promise<void> {
 
     const updatedPrFilenames = updatedPrFiles.data.map((file) => file.filename)
 
-    const hasChanged = filesToCheck.some((checkFilePattern) => {
-      return updatedPrFilenames.some((prFile) =>
-        matchPattern(prFile, checkFilePattern)
-      )
+    const hasChanged = pathsToCheck.some((filePath) => {
+      return updatedPrFilenames.some((prFile) => matchPattern(prFile, filePath))
     })
 
     console.log(
-      `PR ${hasChanged ? 'has' : 'has not'} changed files: ${filesToCheck}`
+      `PR ${hasChanged ? 'has' : 'has not'} changed files: ${pathsToCheck}`
     )
     core.setOutput('has-changed', hasChanged)
   } catch (error) {
