@@ -27253,9 +27253,16 @@ var coreExports = requireCore();
 async function run() {
     try {
         const githubToken = process.env.GITHUB_TOKEN;
-        // const prNumber = parseInt(core.getInput('pr_number', { required: true }))
-        console.log(githubToken);
-        // core.setOutput('branchThemeId')
+        const directories = coreExports.getInput('directories', {
+            required: true,
+            trimWhitespace: true
+        });
+        const prNumberString = coreExports.getInput('pr-number', {
+            trimWhitespace: true
+        });
+        const prNumber = prNumberString ? Number(prNumberString) : null;
+        console.log(githubToken, prNumber, directories);
+        coreExports.setOutput('has-changed', false);
     }
     catch (error) {
         if (error instanceof Error)

@@ -20,7 +20,7 @@ export async function run(): Promise<void> {
 
     console.log(githubToken, prNumber, directories)
 
-    core.setOutput('has-changed', false
+    core.setOutput('has-changed', false)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
