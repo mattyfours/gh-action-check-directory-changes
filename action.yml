@@ -1,6 +1,5 @@
-name: 'GH Action Check Directory Changes'
-description:
-  'Check if specific directories have changed in a GitHub repository.'
+name: 'GH Action Check Path Changes'
+description: 'Check if specific paths have changed in a GitHub repository.'
 author: 'mattyfours'
 
 inputs:

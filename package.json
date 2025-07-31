@@ -1,8 +1,8 @@
 {
   "name": "typescript-action",
-  "description": "GitHub Actions TypeScript template",
+  "description": "GH Action Check Path Changes",
   "version": "0.0.0",
-  "author": "",
+  "author": "mattyfours",
   "type": "module",
   "private": true,
   "homepage": "https://github.com/actions/typescript-action",
