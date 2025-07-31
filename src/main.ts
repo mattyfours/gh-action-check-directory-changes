@@ -6,11 +6,6 @@ import * as core from '@actions/core'
  */
 export async function run(): Promise<void> {
   try {
-    const input: string = core.getInput('input', {
-      required: true,
-      trimWhitespace: true
-    })
-
     const githubToken = core.getInput('github_token', { required: true })
     const prNumber = parseInt(core.getInput('pr_number', { required: true }))
 
