@@ -1,4 +1,4 @@
-name: 🚀 Update QA theme
+name: Check Directory Changes
 
 on:
   workflow_dispatch:
