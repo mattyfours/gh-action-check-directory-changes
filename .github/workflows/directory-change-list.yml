@@ -20,3 +20,7 @@ jobs:
 
       - uses: mattyfours/gh-action-check-directory-changes@main
         id: has-changed-directory
+        with:
+          directories: 'src, docs'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,24 +1,17 @@
-name: The name of your action here
-description: Provide a description here
-author: Your name or organization here
+name: 'GH Action Check Directory Changes'
+description:
+  'Check if specific directories have changed in a GitHub repository.'
+author: 'mattyfours'
 
-# Add your action's branding here. This will appear on the GitHub Marketplace.
-branding:
-  icon: heart
-  color: red
-
-# Define your inputs here.
 inputs:
-  milliseconds:
-    description: Your input description here
+  directories:
+    description: 'Comma-separated list of directories to check for changes.'
     required: true
-    default: '1000'
 
-# Define your outputs here.
 outputs:
-  time:
-    description: Your output description here
+  has-changed:
+    description: 'Boolean indicating if the specified directories have changed.'
 
 runs:
-  using: node20
-  main: dist/index.js
+  using: 'node20'
+  main: 'dist/main.js'
