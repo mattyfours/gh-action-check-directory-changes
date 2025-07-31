@@ -27252,9 +27252,9 @@ var coreExports = requireCore();
  */
 async function run() {
     try {
-        const githubToken = coreExports.getInput('github_token', { required: true });
-        const prNumber = parseInt(coreExports.getInput('pr_number', { required: true }));
-        console.log(githubToken, prNumber);
+        const githubToken = process.env.GITHUB_TOKEN;
+        // const prNumber = parseInt(core.getInput('pr_number', { required: true }))
+        console.log(githubToken);
         // core.setOutput('branchThemeId')
     }
     catch (error) {
