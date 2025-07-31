@@ -36877,8 +36877,10 @@ async function run() {
             pull_number: prNumber
         });
         const updatedPrFilenames = updatedPrFiles.data.map((file) => file.filename);
-        const hasChanged = filesToCheck.some((checkFile) => {
-            return updatedPrFilenames.some((prFile) => matchPattern(prFile, checkFile));
+        console.log(updatedPrFilenames);
+        console.log(`Checking files: ${filesToCheck}`);
+        const hasChanged = filesToCheck.some((checkFilePattern) => {
+            return updatedPrFilenames.some((prFile) => matchPattern(prFile, checkFilePattern));
         });
         console.log(`PR ${hasChanged ? 'has' : 'has not'} changed files: ${filesToCheck}`);
         coreExports.setOutput('has-changed', hasChanged);
