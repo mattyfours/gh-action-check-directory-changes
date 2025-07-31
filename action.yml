@@ -8,6 +8,13 @@ inputs:
     description: 'Comma-separated list of directories to check for changes.'
     required: true
 
+  prNumber:
+    description:
+      'Pull request number to check changes against. If not provided, checks
+      against the latest commit.'
+    required: false
+    default: null
+
 outputs:
   has-changed:
     description: 'Boolean indicating if the specified directories have changed.'

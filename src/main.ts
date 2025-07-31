@@ -6,10 +6,10 @@ import * as core from '@actions/core'
  */
 export async function run(): Promise<void> {
   try {
-    const githubToken = core.getInput('github_token', { required: true })
-    const prNumber = parseInt(core.getInput('pr_number', { required: true }))
+    const githubToken = process.env.GITHUB_TOKEN
+    // const prNumber = parseInt(core.getInput('pr_number', { required: true }))
 
-    console.log(githubToken, prNumber)
+    console.log(githubToken)
 
     // core.setOutput('branchThemeId')
   } catch (error) {
