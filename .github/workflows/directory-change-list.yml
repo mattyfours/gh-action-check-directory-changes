@@ -18,5 +18,5 @@ jobs:
         with:
           node-version: 21
 
-      - uses: mattyfours/gh-action-check-directory-changes
+      - uses: mattyfours/gh-action-check-directory-changes@main
         id: has-changed-directory
