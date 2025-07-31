@@ -2,7 +2,6 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { Octokit } from 'octokit'
 import { matchPattern } from './uitils.js'
-i
 
 /**
  * The main function for the action.
