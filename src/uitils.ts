@@ -1,15 +1,13 @@
 export function matchPattern(file: string, pattern: string): boolean {
-  console.log(`Matching file: ${file} against pattern: ${pattern}`)
+  if (!file || !pattern) return false
 
-  const regexStr =
-    '^' +
-    pattern
-      .trim()
-      .replace(/\./g, '\\.')
-      .replace(/\*\*/g, '.*')
-      .replace(/\*/g, '[^/]*') +
-    '$'
+  const regexStr = pattern
+    .trim()
+    .replace(/\*\*/g, '###DOUBLESTAR###')
+    .replace(/[-/\\^$+?.()|[\]{}]/g, '\\$&')
+    .replace(/\*/g, '[^/]*')
+    .replace(/###DOUBLESTAR###/g, '.*')
 
-  const regex = new RegExp(regexStr)
+  const regex = new RegExp(`^${regexStr}$`)
   return regex.test(file)
 }

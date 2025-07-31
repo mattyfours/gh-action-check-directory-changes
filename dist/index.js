@@ -36842,15 +36842,15 @@ function onSecondaryRateLimit(retryAfter, options, octokit) {
 }
 
 function matchPattern(file, pattern) {
-    console.log(`Matching file: ${file} against pattern: ${pattern}`);
-    const regexStr = '^' +
-        pattern
-            .trim()
-            .replace(/\./g, '\\.')
-            .replace(/\*\*/g, '.*')
-            .replace(/\*/g, '[^/]*') +
-        '$';
-    const regex = new RegExp(regexStr);
+    if (!file || !pattern)
+        return false;
+    const regexStr = pattern
+        .trim()
+        .replace(/\*\*/g, '###DOUBLESTAR###')
+        .replace(/[-/\\^$+?.()|[\]{}]/g, '\\$&')
+        .replace(/\*/g, '[^/]*')
+        .replace(/###DOUBLESTAR###/g, '.*');
+    const regex = new RegExp(`^${regexStr}$`);
     return regex.test(file);
 }
 
