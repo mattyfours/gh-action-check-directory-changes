@@ -1,6 +1,8 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { Octokit } from 'octokit'
+import { matchPattern } from './uitils.js'
+i
 
 /**
  * The main function for the action.
@@ -8,13 +10,18 @@ import { Octokit } from 'octokit'
  */
 export async function run(): Promise<void> {
   try {
+    const { owner, repo } = github.context.repo
     const githubToken = process.env.GITHUB_TOKEN
     const octokit = new Octokit({ auth: githubToken })
 
-    const directories = core.getInput('directories', {
-      required: true,
-      trimWhitespace: true
-    })
+    const filesToCheck = core
+      .getInput('files', {
+        required: true,
+        trimWhitespace: true
+      })
+      .split(',')
+      .map((fileToCheck) => fileToCheck.trim())
+
     const prNumber = Number(
       core.getInput('pr-number', {
         required: true,
@@ -22,23 +29,22 @@ export async function run(): Promise<void> {
       })
     )
 
-    const { owner, repo } = github.context.repo
-
-    const files = await octokit.rest.pulls.listFiles({
+    const updatedPrFiles = await octokit.rest.pulls.listFiles({
       owner,
       repo,
       pull_number: prNumber
     })
 
-    console.log(`Checking directories: ${directories}`)
-    console.log(
-      `Changed files:`,
-      files.data.map((f) => f.filename)
-    )
+    const updatedPrFilenames = updatedPrFiles.data.map((file) => file.filename)
 
-    console.log(githubToken, prNumber, directories)
+    const hasChanged = filesToCheck.some((checkFile) => {
+      return updatedPrFilenames.some((prFile) =>
+        matchPattern(prFile, checkFile)
+      )
+    })
 
-    core.setOutput('has-changed', false)
+    console.log(`PR has changed: ${hasChanged}`)
+    core.setOutput('has-changed', hasChanged)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }

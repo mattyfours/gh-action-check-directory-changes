@@ -36841,32 +36841,48 @@ function onSecondaryRateLimit(retryAfter, options, octokit) {
   }
 }
 
+function matchPattern(file, pattern) {
+    const regexStr = '^' +
+        pattern
+            .replace(/\./g, '\\.')
+            .replace(/\*\*/g, '.*')
+            .replace(/\*/g, '[^/]*') +
+        '$';
+    const regex = new RegExp(regexStr);
+    return regex.test(file);
+}
+
+i;
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 async function run() {
     try {
+        const { owner, repo } = githubExports.context.repo;
         const githubToken = process.env.GITHUB_TOKEN;
         const octokit = new Octokit({ auth: githubToken });
-        const directories = coreExports.getInput('directories', {
+        const filesToCheck = coreExports.getInput('files', {
             required: true,
             trimWhitespace: true
-        });
+        })
+            .split(',')
+            .map((fileToCheck) => fileToCheck.trim());
         const prNumber = Number(coreExports.getInput('pr-number', {
             required: true,
             trimWhitespace: true
         }));
-        const { owner, repo } = githubExports.context.repo;
-        const files = await octokit.rest.pulls.listFiles({
+        const updatedPrFiles = await octokit.rest.pulls.listFiles({
             owner,
             repo,
             pull_number: prNumber
         });
-        console.log(`Checking directories: ${directories}`);
-        console.log(`Changed files:`, files.data.map((f) => f.filename));
-        console.log(githubToken, prNumber, directories);
-        coreExports.setOutput('has-changed', false);
+        const updatedPrFilenames = updatedPrFiles.data.map((file) => file.filename);
+        const hasChanged = filesToCheck.some((checkFile) => {
+            return updatedPrFilenames.some((prFile) => matchPattern(prFile, checkFile));
+        });
+        console.log(`PR has changed: ${hasChanged}`);
+        coreExports.setOutput('has-changed', hasChanged);
     }
     catch (error) {
         if (error instanceof Error)

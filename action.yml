@@ -4,8 +4,8 @@ description:
 author: 'mattyfours'
 
 inputs:
-  directories:
-    description: 'Comma-separated list of directories to check for changes.'
+  files:
+    description: 'Comma-separated list of files to check for changes.'
     required: true
 
   pr-number:
