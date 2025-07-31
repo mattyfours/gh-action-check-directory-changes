@@ -7,12 +7,20 @@ import * as core from '@actions/core'
 export async function run(): Promise<void> {
   try {
     const githubToken = process.env.GITHUB_TOKEN
-    const prNumber = core.getInput('prNumber')
-    const directories = core.getInput('directories')
+
+    const directories = core.getInput('directories', {
+      required: true,
+      trimWhitespace: true
+    })
+    const prNumberString = core.getInput('pr-number', {
+      trimWhitespace: true
+    })
+
+    const prNumber = prNumberString ? Number(prNumberString) : null
 
     console.log(githubToken, prNumber, directories)
 
-    // core.setOutput('branchThemeId')
+    core.setOutput('has-changed', false
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
