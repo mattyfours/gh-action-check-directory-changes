@@ -36842,8 +36842,10 @@ function onSecondaryRateLimit(retryAfter, options, octokit) {
 }
 
 function matchPattern(file, pattern) {
+    console.log(`Matching file: ${file} against pattern: ${pattern}`);
     const regexStr = '^' +
         pattern
+            .trim()
             .replace(/\./g, '\\.')
             .replace(/\*\*/g, '.*')
             .replace(/\*/g, '[^/]*') +
@@ -36877,8 +36879,6 @@ async function run() {
             pull_number: prNumber
         });
         const updatedPrFilenames = updatedPrFiles.data.map((file) => file.filename);
-        console.log(updatedPrFilenames);
-        console.log(`Checking files: ${filesToCheck}`);
         const hasChanged = filesToCheck.some((checkFilePattern) => {
             return updatedPrFilenames.some((prFile) => matchPattern(prFile, checkFilePattern));
         });

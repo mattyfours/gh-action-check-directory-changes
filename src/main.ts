@@ -36,8 +36,6 @@ export async function run(): Promise<void> {
 
     const updatedPrFilenames = updatedPrFiles.data.map((file) => file.filename)
 
-    console.log(updatedPrFilenames)
-    console.log(`Checking files: ${filesToCheck}`)
     const hasChanged = filesToCheck.some((checkFilePattern) => {
       return updatedPrFilenames.some((prFile) =>
         matchPattern(prFile, checkFilePattern)
