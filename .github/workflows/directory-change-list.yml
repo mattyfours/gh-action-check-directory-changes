@@ -2,8 +2,11 @@ name: Check Directory Changes
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main, develop]
+  pull_request:
+    types: [opened, reopened, synchronize, edited]
+    branches:
+      - develop
+      - main
 
 run-name: Check directory changes
 

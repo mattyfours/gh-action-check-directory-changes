@@ -12,8 +12,7 @@ inputs:
     description:
       'Pull request number to check changes against. If not provided, checks
       against the latest commit.'
-    required: false
-    default: null
+    required: true
 
 outputs:
   has-changed:
